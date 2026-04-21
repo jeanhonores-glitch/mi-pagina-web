@@ -1,0 +1,78 @@
+        <section class="product container" id="masvendidos">
+            <h2>Más Vendidos</h2>
+            <p class="section-description">Los juegos con más éxito de este año</p>
+
+            <div class="product-content">
+                <div class="product-1">
+                    <img src="images/l6.jpg" alt="Top 1">  
+                    <div class="product-txt">
+                        <h3>Resident Evil: Requiem</h3>
+                        <p style="color: #b0b0b0; font-size: 14px; margin-bottom: 15px;">Mejor juego del año</p>
+                        <div class="price">
+                            <p>$49.900 USD</p>
+                            <a href="https://store.steampowered.com/app/3764200/Resident_Evil_Requiem/" target="_blank" class="btn-2">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-1">
+                    <img src="images/2K.Jpeg" alt="Top 2">  
+                    <div class="product-txt">
+                        <h3>NBA 2K26</h3>
+                        <p style="color: #b0b0b0; font-size: 14px; margin-bottom: 15px;">Segundo más vendido</p>
+                        <div class="price">
+                            <p>$54.900 USD</p>
+                            <a href="https://nba.2k.com/2k26/buy/" target="_blank" class="btn-2">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-1">
+                    <img src="images/COD.jpg" alt="Top 3">  
+                    <div class="product-txt">
+                        <h3>Call of Duty: Black Ops 7</h3>
+                        <p style="color: #b0b0b0; font-size: 14px; margin-bottom: 15px;">Tercero más vendido</p>
+                        <div class="price">
+                            <p>$69.990 USD</p>
+                            <a href="https://www.xbox.com/es-cl/games/call-of-duty-black-ops-7" target="_blank" class="btn-2">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-1">
+                    <img src="images/nfl.jpg" alt="Top 4">  
+                    <div class="product-txt">
+                        <h3>Madden NFL 26</h3>
+                        <p style="color: #b0b0b0; font-size: 14px; margin-bottom: 15px;">Cuarto más vendido</p>
+                        <div class="price">
+                            <p>$69.900 USD</p>
+                            <a href="https://www.ea.com/es-es/games/madden-nfl/madden-nfl-26" target="_blank" class="btn-2">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-1">
+                    <img src="images/mine.jpg" alt="Top 5">  
+                    <div class="product-txt">
+                        <h3>Minecraft</h3>
+                        <p style="color: #b0b0b0; font-size: 14px; margin-bottom: 15px;">Quinto más vendido</p>
+                        <div class="price">
+                            <p>$30.000 USD</p>
+                            <a href="https://www.minecraft.net/es-es/get-minecraft" target="_blank" class="btn-2">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-1">
+                    <img src="images/fc26jpg.jpg" alt="Top 6">  
+                    <div class="product-txt">
+                        <h3>EA Sports FC 26</h3>
+                        <p style="color: #b0b0b0; font-size: 14px; margin-bottom: 15px;">Sexto más vendido</p>
+                        <div class="price">
+                            <p>$69.900 USD</p>
+                            <a href="https://www.ea.com/es-es/games/ea-sports-fc/fc-26" target="_blank" class="btn-2">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
