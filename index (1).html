@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nexus Game Store - Jean Pierre Honores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b1a; --bg2:#12142b; --panel:rgba(22,25,56,.62); --line:rgba(128,237,255,.22);
+  --cyan:#80EDFF; --violet:#8b5cf6; --pink:#ff4fd8; --text:#e8eaff; --muted:#9aa0c8;
+  --display:'Sora',system-ui,sans-serif; --body:'Manrope',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;
+  background-image:radial-gradient(60rem 40rem at 85% -10%,rgba(139,92,246,.22),transparent 60%),radial-gradient(50rem 40rem at -10% 40%,rgba(128,237,255,.10),transparent 60%);}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(128,237,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(128,237,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:linear-gradient(#000 0,transparent 85%)}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+img{max-width:100%;display:block}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+h1,h2,h3{font-family:var(--display);line-height:1.15}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+/* Menú */
+.menu{position:fixed;top:0;left:0;right:0;height:68px;z-index:1000;display:flex;align-items:center;justify-content:space-between;
+  padding:0 max(20px,calc((100vw - 1200px)/2 + 20px));background:rgba(10,11,26,.72);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.04em;display:flex;align-items:center;gap:10px}
+.logo i{width:22px;height:22px;border-radius:50%;background:conic-gradient(from 90deg,var(--cyan),var(--violet),var(--pink),var(--cyan));
+  box-shadow:0 0 18px rgba(128,237,255,.7);position:relative}
+.logo i::after{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--bg)}
+.navbar ul{display:flex;gap:4px}
+.navbar a{display:block;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted);transition:.2s}
+.navbar a:hover{color:var(--bg);background:var(--cyan)}
+#menu{display:none}
+.menu label{display:none;cursor:pointer}
+.menu-icono{width:28px;filter:invert(1)}
+
+/* Hero */
+.header{min-height:100vh;display:flex;align-items:center;padding:110px 0 70px;position:relative;
+  background:linear-gradient(90deg,rgba(10,11,26,.96) 20%,rgba(10,11,26,.55)),linear-gradient(0deg,var(--bg),transparent 30%),url(images/bg.jpg) center/cover no-repeat}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;width:100%}
+.hero h1{font-size:clamp(38px,5.4vw,68px);font-weight:800;margin-bottom:22px;
+  background:linear-gradient(100deg,#fff 30%,var(--cyan) 70%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:18px;color:#c9cdf0;max-width:520px;margin-bottom:34px}
+.butons{display:flex;gap:12px;flex-wrap:wrap}
+.btn-1{padding:12px 26px;border-radius:999px;border:1px solid var(--line);background:rgba(128,237,255,.06);font-weight:700;transition:.25s}
+.btn-1:hover{background:var(--cyan);color:var(--bg);box-shadow:0 0 28px rgba(128,237,255,.5)}
+
+/* Asistente IA */
+.ai{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px;backdrop-filter:blur(18px);
+  box-shadow:0 0 60px rgba(139,92,246,.25),inset 0 0 0 1px rgba(255,255,255,.03)}
+.ai-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.pulse{width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(128,237,255,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(128,237,255,0)}100%{box-shadow:0 0 0 0 rgba(128,237,255,0)}}
+.ai-head h2{font-size:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{font:600 13px var(--body);color:var(--text);background:rgba(139,92,246,.16);border:1px solid rgba(139,92,246,.45);padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s}
+.chip:hover,.chip.on{background:var(--violet);border-color:var(--violet)}
+.ai-out{min-height:150px;border-radius:14px;background:rgba(5,6,18,.55);border:1px solid var(--line);padding:16px;display:flex;gap:14px;align-items:flex-start}
+.ai-out img{width:92px;height:120px;object-fit:cover;border-radius:10px;flex-shrink:0}
+.ai-out h3{font-size:17px;margin-bottom:4px}
+.ai-out p{font-size:14px;color:var(--muted)}
+.ai-out .match{color:var(--cyan);font-weight:700;font-size:13px;margin-bottom:6px}
+.caret::after{content:"▍";color:var(--cyan);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* Secciones */
+section{padding:84px 0 20px}
+.sec-head{margin-bottom:34px;max-width:640px}
+.sec-head h2{font-size:clamp(26px,3.4vw,38px);font-weight:700;margin-bottom:8px}
+.sec-head p{color:var(--muted)}
+.video-wrap{border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 0 60px rgba(139,92,246,.2)}
+.video-wrap video{width:100%;display:block;background:#000}
+
+.populares{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}
+.populares a{border-radius:14px;overflow:hidden;border:1px solid var(--line);aspect-ratio:11/16;transition:.25s;display:block}
+.populares img{width:100%;height:100%;object-fit:cover}
+.populares a:hover{border-color:var(--cyan);box-shadow:0 0 26px rgba(128,237,255,.45)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color .25s,box-shadow .25s}
+.card:hover{border-color:var(--cyan);box-shadow:0 0 34px rgba(128,237,255,.25)}
+.thumb{aspect-ratio:16/10;background:linear-gradient(135deg,#1c1f4a,#3a1f66);overflow:hidden;position:relative}
+.thumb.poster{aspect-ratio:4/5}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top}
+.thumb.empty{background:radial-gradient(circle at 80% 20%,rgba(255,79,216,.35),transparent 55%),radial-gradient(circle at 15% 90%,rgba(128,237,255,.3),transparent 55%),linear-gradient(135deg,#1c1f4a,#3a1f66)}
+.thumb.empty::after{content:attr(data-t);position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;font:800 clamp(24px,3vw,34px)/1.1 var(--display);color:#fff;text-shadow:0 0 24px rgba(128,237,255,.6)}
+.badge{position:absolute;top:12px;left:12px;background:var(--pink);color:#fff;font:700 13px var(--display);padding:5px 12px;border-radius:999px}
+.rank{background:var(--cyan);color:var(--bg);font-size:15px}
+.match-tag{position:absolute;top:12px;right:12px;background:rgba(10,11,26,.8);border:1px solid var(--line);color:var(--cyan);font-weight:700;font-size:12px;padding:4px 10px;border-radius:999px;backdrop-filter:blur(6px)}
+.card-txt{padding:20px 22px 22px;display:flex;flex-direction:column;flex-grow:1}
+.card h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.card p.d{color:var(--muted);font-size:14px;margin-bottom:16px;flex-grow:1}
+.price{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.price b{font:700 19px var(--display);color:var(--cyan)}
+.price s{color:var(--muted);font-size:14px;margin-left:8px}
+.btn-2{background:linear-gradient(120deg,var(--violet),#5b6cff);border:0;color:#fff;font:700 14px var(--body);padding:10px 20px;border-radius:10px;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-2:hover{filter:brightness(1.2);box-shadow:0 0 22px rgba(139,92,246,.7)}
+
+/* Contacto */
+.contact-content{margin:84px 0 0;text-align:center;padding:56px 28px;border-radius:28px;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(128,237,255,.08))}
+.contact-content h2{font-size:30px;margin-bottom:10px}
+.contact-content p{color:var(--muted);margin-bottom:26px}
+form{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+input{font:500 16px var(--body);padding:14px 22px;background:rgba(5,6,18,.6);border:1px solid var(--line);border-radius:999px;color:var(--text);outline:none;min-width:280px}
+input:focus{border-color:var(--cyan);box-shadow:0 0 20px rgba(128,237,255,.3)}
+input::placeholder{color:var(--muted)}
+.btn-3{background:var(--cyan);color:var(--bg);border:0;font-weight:800;cursor:pointer;min-width:0}
+
+/* Footer */
+.footer{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:30px;padding:56px 20px;margin-top:80px;border-top:1px solid var(--line)}
+.footer h3{font-size:15px;color:var(--cyan);margin-bottom:12px}
+.footer li{margin-bottom:6px}.footer li a{color:var(--muted);font-size:15px}.footer li a:hover{color:var(--cyan)}
+
+/* Toast y modal */
+.toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+.toast{background:rgba(18,20,43,.95);border:1px solid var(--cyan);border-left-width:4px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;min-width:290px;box-shadow:0 0 30px rgba(128,237,255,.3);animation:slideIn .35s ease}
+.toast.error{border-color:var(--pink)}.toast.success{border-color:#5dffb0}
+.toast-content{flex:1;font-size:14px;font-weight:600}.toast-close{cursor:pointer;opacity:.7}
+.toast.hide{animation:slideOut .35s ease forwards}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}}
+@keyframes slideOut{to{transform:translateX(120%);opacity:0}}
+.modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(3,4,12,.82);overflow-y:auto;backdrop-filter:blur(6px)}
+.modal-content{background:var(--bg2);margin:8vh auto;padding:34px;border:1px solid var(--cyan);border-radius:20px;width:90%;max-width:480px;box-shadow:0 0 60px rgba(128,237,255,.3)}
+.close-modal{float:right;font-size:28px;cursor:pointer;color:var(--cyan);line-height:1}
+.modal h2{font-size:22px;margin-bottom:8px}
+.modal-game-title{font:700 17px var(--display);color:var(--cyan);margin-bottom:18px}
+.modal-form{flex-direction:column}.modal-form input{border-radius:12px;min-width:0;width:100%}
+.btn-notify{padding:13px;border:0;border-radius:12px;background:var(--cyan);color:var(--bg);font:800 16px var(--body);cursor:pointer}
+.notification-message{display:none;padding:12px;border-radius:10px;margin-bottom:14px;text-align:center;font-weight:600}
+.notification-message.success{display:block;background:rgba(93,255,176,.12);border:1px solid #5dffb0}
+.notification-message.error{display:block;background:rgba(255,79,216,.12);border:1px solid var(--pink)}
+
+@media (max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}.populares{grid-template-columns:repeat(4,1fr)}.hero{grid-template-columns:1fr}}
+@media (max-width:768px){
+  .menu label{display:block}
+  .navbar{position:absolute;top:68px;left:0;right:0;background:rgba(10,11,26,.97);display:none;border-bottom:1px solid var(--line);padding:10px}
+  #menu:checked ~ .navbar{display:block}
+  .navbar ul{flex-direction:column}
+  .footer{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){.grid{grid-template-columns:1fr}.populares{grid-template-columns:repeat(3,1fr)}input{min-width:100%}.footer{grid-template-columns:1fr}.btn-1{flex:1;text-align:center}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div id="notificationModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" role="button" aria-label="Cerrar">&times;</span>
+    <h2>Avísame del lanzamiento</h2>
+    <div id="notificationMessage" class="notification-message"></div>
+    <p class="modal-game-title" id="gameTitle"></p>
+    <form class="modal-form" id="notificationForm">
+      <input type="text" id="playerName" placeholder="Tu nombre" required>
+      <input type="email" id="playerEmail" placeholder="Tu correo electrónico" required>
+      <button type="submit" class="btn-notify">Notificarme</button>
+    </form>
+  </div>
+</div>
+
+<nav class="menu">
+  <a href="#inicio" class="logo"><i></i>NEXUS</a>
+  <input type="checkbox" id="menu">
+  <label for="menu"><img src="images/menu.png" class="menu-icono" alt="Menú"></label>
+  <div class="navbar">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#populares">Populares</a></li>
+      <li><a href="#destacados">Destacados</a></li>
+      <li><a href="#ofertas">Ofertas</a></li>
+      <li><a href="#proximos">Próximos</a></li>
+      <li><a href="#masvendidos">Top</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="header">
+  <div class="hero container">
+    <div>
+      <h1>Nexus Game Store</h1>
+      <p class="lead">La tienda de videojuegos que te ayuda a elegir. Cuéntale al asistente qué te gusta y encuentra tu próximo juego en segundos.</p>
+      <div class="butons">
+        <a href="https://www.steampowered.com" target="_blank" rel="noopener" class="btn-1">Steam</a>
+        <a href="https://www.epicgames.com/store/es-MX/" target="_blank" rel="noopener" class="btn-1">Epic Games</a>
+        <a href="#contacto" class="btn-1">Suscribirme</a>
+      </div>
+    </div>
+    <div class="ai" aria-live="polite">
+      <div class="ai-head"><span class="pulse"></span><h2>Asistente Nexus</h2></div>
+      <div class="chips" id="chips"></div>
+      <div class="ai-out" id="aiOut"></div>
+    </div>
+  </div>
+</header>
+
+<section class="container" id="inicio">
+  <div class="sec-head"><h2>Bienvenido a Nexus</h2><p>Mira cómo es jugar en nuestra comunidad.</p></div>
+  <div class="video-wrap">
+    <video controls poster="images/l8.jpg"><source src="videos/games.mp4" type="video/mp4">Tu navegador no soporta el formato de video.</video>
+  </div>
+</section>
+
+<section class="container" id="populares">
+  <div class="sec-head"><h2>Juegos más populares</h2><p>Los títulos más jugados por la comunidad.</p></div>
+  <div class="populares" id="popularesGrid"></div>
+</section>
+
+<section class="container" id="destacados">
+  <div class="sec-head"><h2>Productos destacados</h2><p>Selección del equipo, lista para comprar.</p></div>
+  <div class="grid" id="gridDestacados"></div>
+</section>
+
+<section class="container" id="ofertas">
+  <div class="sec-head"><h2>Ofertas por tiempo limitado</h2><p>Descuentos vigentes hoy.</p></div>
+  <div class="grid" id="gridOfertas"></div>
+</section>
+
+<section class="container" id="proximos">
+  <div class="sec-head"><h2>Próximos lanzamientos 2026</h2><p>Deja tu correo y te avisamos cuando salgan.</p></div>
+  <div class="grid" id="gridProximos"></div>
+</section>
+
+<section class="container" id="masvendidos">
+  <div class="sec-head"><h2>Top del momento</h2><p>Los tres favoritos de millones de jugadores.</p></div>
+  <div class="grid" id="gridTop"></div>
+</section>
+
+<section class="container" id="contacto">
+  <div class="contact-content">
+    <h2>Suscríbete al boletín</h2>
+    <p>Ofertas exclusivas y lanzamientos directo en tu correo.</p>
+    <form id="newsForm">
+      <input type="email" placeholder="tu@correo.com" required aria-label="Correo electrónico">
+      <input type="submit" class="btn-3" value="Suscribirme">
+    </form>
+  </div>
+</section>
+
+<footer class="footer container">
+  <div><a href="#inicio" class="logo"><i></i>NEXUS</a></div>
+  <div><h3>Navegación</h3><ul>
+    <li><a href="#populares">Populares</a></li><li><a href="#ofertas">Ofertas</a></li><li><a href="#proximos">Próximos</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
+  <div><h3>Plataformas</h3><ul>
+    <li><a href="https://www.steampowered.com" target="_blank" rel="noopener">Steam</a></li>
+    <li><a href="https://www.epicgames.com/store/es-MX/" target="_blank" rel="noopener">Epic Games</a></li>
+    <li><a href="https://store.playstation.com" target="_blank" rel="noopener">PlayStation</a></li>
+    <li><a href="https://www.xbox.com/es-ES/xbox-game-pass" target="_blank" rel="noopener">Xbox</a></li></ul></div>
+  <div><h3>Más</h3><ul>
+    <li><a href="https://www.gog.com" target="_blank" rel="noopener">GOG</a></li>
+    <li><a href="https://www.nintendo.com/store/" target="_blank" rel="noopener">Nintendo</a></li>
+    <li><a href="https://www.ubisoft.com" target="_blank" rel="noopener">Ubisoft</a></li></ul></div>
+</footer>
+
+<script>
+const STEAM='https://www.steampowered.com', EPIC='https://www.epicgames.com/store/es-MX/', GOG='https://www.gog.com';
+
+/* Catálogo: cada imagen subida va a su juego */
+const G = {
+  gta5:{t:'Grand Theft Auto V',img:'g6.jpg',d:'Mundo abierto con tres protagonistas y una ciudad que nunca duerme.',p:29.99,u:STEAM,tags:['mundo abierto','acción'],m:96},
+  bf42:{t:'Battlefield 2042',img:'g2.jpg',d:'Batallas masivas con clima extremo y escuadras de gran tamaño.',p:39.99,u:EPIC,tags:['disparos','acción'],m:91},
+  codg:{t:'Call of Duty: Ghosts',img:'g1.jpg',d:'Campaña cinematográfica y multijugador de ritmo rápido.',p:29.99,u:STEAM,tags:['disparos','acción'],m:89},
+  gow2:{t:'Gears of War 2',img:'l6.jpg',d:'Cobertura táctica y combate brutal en una guerra sin tregua.',p:19.99,u:STEAM,tags:['disparos','acción'],m:92},
+  cp:{t:'Cyberpunk 2077',img:'l4.jpg',d:'Rol en Night City: elige quién eres en una metrópolis de neón.',p:59.99,u:GOG,tags:['mundo abierto','ciencia ficción'],m:97},
+  halo:{t:'Halo: Reach',img:'l1.jpg',d:'El último tramo de Noble Team, con combate espacial clásico.',p:29.99,u:STEAM,tags:['disparos','ciencia ficción'],m:94},
+  bf5:{t:'Battlefield V',img:'l9.jpg',d:'Segunda Guerra Mundial a gran escala, con tanques y escuadras.',p:39.99,u:EPIC,tags:['disparos','acción'],m:88},
+  ctr:{t:'Crash Team Racing Nitro-Fueled',img:'l7.jpg',d:'Carreras arcade con derrapes, turbos y todo el elenco de Crash.',p:39.99,u:STEAM,tags:['carreras','gratis'],m:90},
+  surge:{t:'The Surge',img:'g7.jpg',d:'Acción de exoesqueletos y cortes precisos en un futuro industrial.',p:19.99,u:STEAM,tags:['ciencia ficción','acción'],m:87},
+  fort:{t:'Fortnite',img:'l5.jpg',d:'Battle royale con construcción, eventos en vivo y juego cruzado.',p:0,u:EPIC,tags:['gratis','disparos'],m:93},
+  ff:{t:'Free Fire',img:'l2.jpg',d:'Partidas de 10 minutos pensadas para jugar en cualquier lugar.',p:0,u:STEAM,tags:['gratis','disparos'],m:86},
+  clash:{t:'Clash Royale',img:'l3.jpg',d:'Duelos de cartas y torres en tiempo real, partidas de 3 minutos.',p:0,u:STEAM,tags:['gratis'],m:85}
+};
+const money=n=>n===0?'Gratis':'$'+n.toFixed(2)+' USD';
+const buy=(g)=>`<a href="${g.u}" target="_blank" rel="noopener" class="btn-2">${g.p===0?'Jugar gratis':'Comprar'}</a>`;
+
+function card(g,{poster=false,badge='',rank=false,off=0}={}){
+  const price = off ? `<span><b>${money(g.p*(1-off/100))}</b><s>${money(g.p)}</s></span>` : `<b>${money(g.p)}</b>`;
+  return `<article class="card">
+    <div class="thumb ${poster?'poster':''}"><img src="images/${g.img}" alt="${g.t}" loading="lazy">
+      ${badge?`<span class="badge ${rank?'rank':''}">${badge}</span>`:''}<span class="match-tag">Match ${g.m}%</span></div>
+    <div class="card-txt"><h3>${g.t}</h3><p class="d">${g.d}</p>
+      <div class="price">${price}${buy(g)}</div></div></article>`;
+}
+const $=id=>document.getElementById(id);
+
+/* Populares: las 7 portadas */
+const pop=[['g1','Call of Duty: Ghosts',STEAM],['g2','Battlefield 2042',EPIC],['g3','Halo: Reach',STEAM],['g4','Fortnite',EPIC],['g5','Crash Team Racing',STEAM],['g6','Grand Theft Auto V',STEAM],['g7','The Surge',STEAM]];
+$('popularesGrid').innerHTML=pop.map(([f,t,u])=>`<a href="${u}" target="_blank" rel="noopener" title="${t}"><img src="images/${f}.jpg" alt="${t}" loading="lazy"></a>`).join('');
+
+$('gridDestacados').innerHTML=['gta5','bf42','codg'].map(k=>card(G[k],{poster:true})).join('');
+$('gridOfertas').innerHTML=[['gow2',50],['cp',50],['halo',40],['bf5',75],['ctr',50],['surge',60]].map(([k,o])=>card(G[k],{badge:'-'+o+'%',off:o})).join('');
+$('gridTop').innerHTML=['fort','ff','clash'].map((k,i)=>card(G[k],{badge:'#'+(i+1),rank:true})).join('');
+
+/* Próximos: sin imágenes todavía (agrega images/gta6.jpg, etc.) */
+const prox=[['GTA 6','19 de noviembre de 2026','gta6.jpg'],['Halloween','8 de septiembre de 2026','ha.jpg'],['Marvel’s Wolverine','10 de julio de 2026','w.jpg'],['SAROS','30 de abril de 2026','Saros.jpg'],['Phantom Blade Zero','9 de septiembre de 2026','ph.jpg'],['Fable','7 de junio de 2026','fabjpg.jpg']];
+$('gridProximos').innerHTML=prox.map(([t,f,img])=>`<article class="card">
+  <div class="thumb" data-t="${t}"><img src="images/${img}" alt="${t}" loading="lazy" onerror="this.parentNode.classList.add('empty');this.remove()"><span class="badge">Preventa</span></div>
+  <div class="card-txt"><h3>${t}</h3><p class="d">Disponible el ${f}</p>
+  <div class="price"><b>Preventa</b><button type="button" class="btn-2" data-game="${t}" onclick="abrirModalNotificacion(this)">Notificar</button></div></div></article>`).join('');
+
+/* Asistente: sugiere un juego según la etiqueta elegida */
+const topics=['disparos','carreras','mundo abierto','ciencia ficción','gratis'];
+const chips=$('chips'), out=$('aiOut'); let timer;
+chips.innerHTML=topics.map(t=>`<button class="chip" data-t="${t}">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')+'<button class="chip" data-t="*">Sorpréndeme</button>';
+function recommend(t){
+  const all=Object.values(G); const pool=t==='*'?all:all.filter(g=>g.tags.includes(t));
+  const g=pool.sort((a,b)=>b.m-a.m)[t==='*'?Math.floor(Math.random()*pool.length):0];
+  const msg=`${g.d} Compatibilidad con lo que buscas: ${g.m}%.`;
+  clearInterval(timer);
+  out.innerHTML=`<img src="images/${g.img}" alt="${g.t}"><div><div class="match">Recomendado</div><h3>${g.t}</h3><p class="caret" id="aiTxt"></p></div>`;
+  const el=$('aiTxt'); let i=0;
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=msg;el.classList.remove('caret');return}
+  timer=setInterval(()=>{el.textContent=msg.slice(0,++i);if(i>=msg.length){clearInterval(timer);el.classList.remove('caret')}},18);
+}
+chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+  chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b));recommend(b.dataset.t)});
+out.innerHTML='<p style="color:var(--muted);font-size:14px">Elige un género y te propongo un juego.</p>';
+setTimeout(()=>chips.firstElementChild.click(),600);
+
+/* Toast */
+function showToast(message,type='info',duration=4000){
+  const t=document.createElement('div');t.className='toast '+type;
+  t.innerHTML=`<span class="toast-content">${message}</span><span class="toast-close">&times;</span>`;
+  $('toastContainer').appendChild(t);
+  const close=()=>{t.classList.add('hide');setTimeout(()=>t.remove(),400)};
+  t.querySelector('.toast-close').addEventListener('click',close);setTimeout(close,duration);
+}
+
+/* Modal de notificación */
+const modal=$('notificationModal'), nForm=$('notificationForm'), nMsg=$('notificationMessage');
+function abrirModalNotificacion(btn){$('gameTitle').textContent=btn.dataset.game;modal.style.display='block'}
+document.querySelector('.close-modal').addEventListener('click',()=>modal.style.display='none');
+window.addEventListener('click',e=>{if(e.target===modal)modal.style.display='none'});
+nForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=$('playerName').value,email=$('playerEmail').value,game=$('gameTitle').textContent;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    showToast('Ingresa un correo válido','error');nMsg.textContent='Ingresa un correo válido';nMsg.className='notification-message error';return}
+  try{const l=JSON.parse(localStorage.getItem('gameNotifications')||'[]');
+    l.push({name,email,game,date:new Date().toLocaleString('es-ES')});localStorage.setItem('gameNotifications',JSON.stringify(l))}catch(_){}
+  showToast(`Te avisaremos cuando ${game} se lance`,'success',5000);
+  nMsg.innerHTML=`<strong>Registro completado.</strong><br>Te avisaremos cuando ${game} se lance.`;nMsg.className='notification-message success';
+  setTimeout(()=>{nForm.reset();modal.style.display='none';nMsg.className='notification-message';nMsg.innerHTML=''},2500);
+});
+$('newsForm').addEventListener('submit',e=>{e.preventDefault();showToast('Suscripción confirmada','success');e.target.reset()});
+</script>
+</body>
+</html>
